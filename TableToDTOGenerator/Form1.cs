@@ -199,6 +199,9 @@ namespace TableToDTOGenerator
                             case "bit":
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Boolean", field.colName));
                                 break;
+                            case "tinyint":
+                                sb.AppendLine(string.Format("        public {0}? {1}", "Byte", field.colName));
+                                break;
                             default:
                                 break;
                         }
@@ -211,7 +214,7 @@ namespace TableToDTOGenerator
                     sb.AppendLine("}");
                     sw.Write(sb.ToString());
                     sb.Clear();
-                    textBox1.AppendText("[" + tab.Key + "]以生成完毕.........\n");
+                    textBox1.AppendText("[" + tab.Key + "]已生成完毕.........\n");
                 }
             }
         }
