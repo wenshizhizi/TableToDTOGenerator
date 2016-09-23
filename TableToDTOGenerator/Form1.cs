@@ -202,6 +202,21 @@ namespace TableToDTOGenerator
                             case "tinyint":
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Byte", field.colName));
                                 break;
+                            case "smallint":
+                                sb.AppendLine(string.Format("        public {0}? {1}", "Int16", field.colName));
+                                break;
+                            case "bigint":
+                                sb.AppendLine(string.Format("        public {0}? {1}", "Int64", field.colName));
+                                break;
+                            case "real":
+                                sb.AppendLine(string.Format("        public {0} {1}", "float", field.colName));
+                                break;
+                            case "money":
+                                sb.AppendLine(string.Format("        public {0}? {1}", "Decimal", field.colName));
+                                break;
+                            case "decimal":
+                                sb.AppendLine(string.Format("        public {0}? {1}", "Decimal", field.colName));
+                                break;
                             default:
                                 break;
                         }
