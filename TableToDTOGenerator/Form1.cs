@@ -20,6 +20,8 @@ namespace TableToDTOGenerator
 	                                                c.name AS column_name,																									
 	                                                t.name AS data_type,
 	                                                c.max_length length,
+                                                    c.[precision],
+													c.scale,
                                                     case WHEN c.is_nullable = 0 THEN 'true' else 'false' end required,
 	                                                (
 		                                                SELECT
@@ -112,6 +114,8 @@ namespace TableToDTOGenerator
                                 fi.colName = reader["column_name"].ToString();
                                 fi.dbType = reader["data_type"].ToString();
                                 fi.colNote = reader["notes"].ToString();
+                                fi.precision = reader["precision"].ToString();
+                                fi.scale = reader["scale"].ToString();
                                 fi.dbLength = reader["length"].ToString();
                                 fi.required = reader["required"].ToString();
                             }
@@ -171,50 +175,55 @@ namespace TableToDTOGenerator
                         sb.AppendLine("        /// <summary>");
                         sb.AppendLine(string.Format("        /// {0}", field.colNote));
                         sb.AppendLine("        /// </summary>");
-                        if (field.dbType == "nvarchar")
-                        {
-                            sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},FiledName = \"{1}\",Required = {2})]", int.Parse(field.dbLength) / 2, field.colName, field.required));
-                        }
-                        else
-                        {
-                            sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},FiledName = \"{1}\",Required = {2})]", int.Parse(field.dbLength), field.colName, field.required));
-                        }
+
                         switch (field.dbType)
                         {
                             case "uniqueidentifier":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, 32));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Guid", field.colName));
                                 break;
                             case "nvarchar":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength) / 2));
                                 sb.AppendLine(string.Format("        public {0} {1}", "String", field.colName));
                                 break;
                             case "varchar":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0} {1}", "String", field.colName));
                                 break;
                             case "int":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Int32", field.colName));
                                 break;
                             case "datetime":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "DateTime", field.colName));
                                 break;
                             case "bit":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Boolean", field.colName));
                                 break;
                             case "tinyint":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Byte", field.colName));
                                 break;
                             case "smallint":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Int16", field.colName));
                                 break;
                             case "bigint":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Int64", field.colName));
                                 break;
                             case "real":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0} {1}", "float", field.colName));
                                 break;
                             case "money":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Decimal", field.colName));
                                 break;
                             case "decimal":
+                                sb.AppendLine(string.Format("        [FieldInfo(DataFieldLength = {0},DataFieldPrecision = {3},DataFieldScale = {4},FiledName = \"{1}\",Required = {2},DataLength = {5})]", field.dbLength, field.colName, field.required, field.precision, field.scale, Convert.ToInt32(field.dbLength)));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Decimal", field.colName));
                                 break;
                             default:
@@ -246,6 +255,8 @@ namespace TableToDTOGenerator
     {
         public string colName { get; set; }
         public string dbType { get; set; }
+        public string precision { get; set; }
+        public string scale { get; set; }
         public string dbLength { get; set; }
         public string colNote { get; set; }
         public string required { get; set; }
