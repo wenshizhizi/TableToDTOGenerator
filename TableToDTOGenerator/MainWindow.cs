@@ -278,6 +278,10 @@ namespace TableToDTOGenerator
                                 sb.AppendLine(string.Format("        [FieldInfo(ColumnName = \"{0}\")]", field.colName));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Guid", field.colName.ToString().Remove(0, 1)));
                                 break;
+                            case "xml":
+                                sb.AppendLine(string.Format("        [FieldInfo(ColumnName = \"{0}\")]", field.colName));
+                                sb.AppendLine(string.Format("        public {0} {1}", "String", field.colName.ToString().Remove(0, 1)));
+                                break;
                             case "nvarchar":
                                 sb.AppendLine(string.Format("        [FieldInfo(ColumnName = \"{0}\")]", field.colName));
                                 sb.AppendLine(string.Format("        public {0} {1}", "String", field.colName.ToString().Remove(0, 1)));
@@ -399,6 +403,10 @@ namespace TableToDTOGenerator
                             case "uniqueidentifier":
                                 sb.AppendLine(string.Format("        [FieldInfo(ByteLength = {0},DataLength = {1},DecimalDigits = {2},ColumnName = \"{3}\",Required = {4},DefaultValue = \"{5}\")]", field.byteLength, field.dbLength, field.decimalDigits, field.colName, field.required, 32));
                                 sb.AppendLine(string.Format("        public {0}? {1}", "Guid", field.colName.ToString().Remove(0, 1)));
+                                break;
+                            case "xml":
+                                sb.AppendLine(string.Format("        [FieldInfo(ColumnName = \"{0}\")]", field.colName));
+                                sb.AppendLine(string.Format("        public {0} {1}", "String", field.colName.ToString().Remove(0, 1)));
                                 break;
                             case "nvarchar":
                                 sb.AppendLine(string.Format("        [FieldInfo(ByteLength = {0},DataLength = {1},DecimalDigits = {2},ColumnName = \"{3}\",Required = {4},DefaultValue = \"{5}\")]", field.byteLength, field.dbLength, field.decimalDigits, field.colName, field.required, field.devalue));
