@@ -193,7 +193,7 @@ namespace TableToDTOGenerator
                     using (SqlCommand cmd = new SqlCommand(sql, conn))
                     {
                         List<FiledInfo> filed = new List<FiledInfo>();
-                        using (var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        using (var reader = cmd.ExecuteReader(CommandBehavior.Default))
                         {
                             while (reader.Read())
                             {
